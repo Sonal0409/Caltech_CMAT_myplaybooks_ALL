@@ -1,0 +1,11 @@
+
+- hosts: webserver
+  become: true
+  tasks:
+  - name: copy my configuration file on hostserver
+    template:
+     src: myconfig.j2
+     dest: /etc/myconfig
+     owner: root
+     group: root
+     mode: '0644'

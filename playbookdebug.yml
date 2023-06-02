@@ -1,0 +1,5 @@
+
+- hosts: webserver
+  tasks:
+  - name: Print a message on hostserver
+    debug: msg="Welcome to Ansible Playbook"

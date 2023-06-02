@@ -1,0 +1,23 @@
+
+- hosts: webserver
+  become: true
+  become_user: root
+  tasks:
+  - name: Install nginx
+    package: name=nginx state=present
+  - name: nginx
+    command: apt-get update
+  - name: start nginx
+    service: name=nginx state=restarted
+    notify: Check nginx service
+  - name: template index.j2.html file to nginx server
+    template:
+     src: index.j2.html
+     dest: /usr/share/nginx/html/index.html
+     mode: 0644
+  handlers:
+  - name: Check nginx service
+    uri: 
+     url: http://{{ansible_default_ipv4.address}}
+     status_code: 200
+

@@ -1,0 +1,24 @@
+
+- hosts: webserver
+  become: true
+  become_user: root
+  vars:
+   user_list:
+    - user01
+    - user02
+    - user03
+  tasks:
+  - name: update apt cache
+    apt: update_cache=yes cache_valid_time=3600
+  - name: Install packages on the host servers
+    package: name={{item}} state=absent
+    loop:
+     - apache2
+     - mysql-server
+     - php-mysql
+     - php
+     - libapache2-mod-php
+     - python3-mysqldb
+  - name: Create users on host servers
+    user: name={{item}} state=absent
+    loop: "{{user_list}}"

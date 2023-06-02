@@ -1,0 +1,19 @@
+
+- hosts: localhost
+  become: true
+  become_user: root
+  tasks:
+  - name: start docker
+    service: name=docker state=started
+    register: docker_service
+  - name: print service variable
+    debug: 
+     var: docker_service.status.ActiveState
+  - name: Pull an image
+    community.docker.docker_image: name={{item}} source=pull
+    when: docker_service.status.ActiveState == "active"
+    loop:
+     - ubuntu
+     - busybox
+     - nginx
+  

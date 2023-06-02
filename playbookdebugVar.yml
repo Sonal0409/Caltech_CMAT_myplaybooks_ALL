@@ -1,0 +1,9 @@
+
+- hosts: webserver
+  tasks:
+  - name: Show Ipaddress of the host servers
+    debug:
+     msg="The ipaddress of host server  is {{ansible_default_ipv4.address}}"
+  - name: print variable
+    debug:
+     var=ansible_default_ipv4.address

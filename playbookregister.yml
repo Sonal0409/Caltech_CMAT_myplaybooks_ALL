@@ -1,0 +1,9 @@
+
+- hosts: webserver
+  tasks:
+  - name: Execute a command on the host
+    command: hostname -s
+    register: hostname_output
+  - name: show  the hostname_output
+    debug:
+     var: hostname_output.stdout

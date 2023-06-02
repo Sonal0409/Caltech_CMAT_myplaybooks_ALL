@@ -1,0 +1,17 @@
+
+- hosts: webserver
+  become: true
+  become_user: root
+  tasks:
+  - name: Execute a command on the host
+    command: hostname -s
+    when: 
+     - ansible_distribution == "Ubuntu"
+     - ansible_distribution_major_version | int >=  20
+    register: hostname_output
+  - name: show  the hostname_output
+    debug:
+     var: hostname_output.stdout
+  - name: Install patch package
+    package: name=patch state=present
+    when: hostname_output.changed
